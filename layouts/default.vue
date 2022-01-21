@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar :clipped-left="clipped" fixed app elevation="5">
       <v-spacer />
-      <v-toolbar-title>Monitoring</v-toolbar-title>
+      <v-toolbar-title>Supervision</v-toolbar-title>
       <v-spacer />
     </v-app-bar>
     <v-main>

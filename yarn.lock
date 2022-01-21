@@ -7631,32 +7631,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monitoring@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "monitoring@workspace:."
-  dependencies:
-    "@babel/eslint-parser": ^7.16.5
-    "@nuxtjs/axios": ^5.13.6
-    "@nuxtjs/dayjs": ^1.4.1
-    "@nuxtjs/eslint-config": ^8.0.0
-    "@nuxtjs/eslint-module": ^3.0.2
-    "@nuxtjs/vuetify": ^1.12.3
-    cookie-universal-nuxt: ^2.1.5
-    core-js: ^3.20.3
-    eslint: ^8.7.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-nuxt: ^3.1.0
-    eslint-plugin-vue: ^8.3.0
-    nuxt: ^2.15.8
-    prettier: ^2.5.1
-    vue: ^2.6.14
-    vue-server-renderer: ^2.6.14
-    vue-template-compiler: ^2.6.14
-    vuetify: ^2.6.2
-    webpack: ^4.46.0
-  languageName: unknown
-  linkType: soft
-
 "move-concurrently@npm:^1.0.1":
   version: 1.0.1
   resolution: "move-concurrently@npm:1.0.1"
@@ -10829,6 +10803,32 @@ __metadata:
   checksum: 8acf28ea609bee6d7ba40121bcf53af8d899c1ec04f2c08de9349b8292b84b8aa7f82e14c623ae6956decf5b7a7eeea5472ab8e48de7bdcdb6d76640444f6753
   languageName: node
   linkType: hard
+
+"supervision@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "supervision@workspace:."
+  dependencies:
+    "@babel/eslint-parser": ^7.16.5
+    "@nuxtjs/axios": ^5.13.6
+    "@nuxtjs/dayjs": ^1.4.1
+    "@nuxtjs/eslint-config": ^8.0.0
+    "@nuxtjs/eslint-module": ^3.0.2
+    "@nuxtjs/vuetify": ^1.12.3
+    cookie-universal-nuxt: ^2.1.5
+    core-js: ^3.20.3
+    eslint: ^8.7.0
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-nuxt: ^3.1.0
+    eslint-plugin-vue: ^8.3.0
+    nuxt: ^2.15.8
+    prettier: ^2.5.1
+    vue: ^2.6.14
+    vue-server-renderer: ^2.6.14
+    vue-template-compiler: ^2.6.14
+    vuetify: ^2.6.2
+    webpack: ^4.46.0
+  languageName: unknown
+  linkType: soft
 
 "supports-color@npm:^2.0.0":
   version: 2.0.0
