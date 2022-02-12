@@ -1,45 +1,47 @@
 <template>
   <v-row justify="center" align="center">
     <v-col xl="8" md="10" style="max-width: 100%;">
-      <v-card v-if="needAuth" elevation="0" style="background-color: transparent">
-        <v-card-text>
-          <a href="https://gitlab.com/-/profile/personal_access_tokens?name=monitor&scopes=read_user,read_registry,read_api" target="_blank">
-            Générer une clé d'API GitLab
-          </a>
-        </v-card-text>
-      </v-card>
-      <v-card v-if="needAuth" class="rounded-lg" elevation="0" style="border: 2px solid red;">
-        <v-card-text>
-          <v-form v-model="valid">
-            <v-text-field
-              v-model="GROUP"
-              label="Groupe"
-              :rules="[v => !!v || 'Veuillez entrer votre groupe']"
-            />
-            <v-text-field
-              v-model="TOKEN"
-              label="Token GitLab"
-              :rules="[v => !!v || 'Veuillez entrer votre token GitLab']"
-              type="password"
-            />
-            <v-text-field
-              v-model="tmpBlacklist"
-              label="Blacklist"
-              :rules="[v => isJson(v)]"
-              type="text"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" :disabled="!valid" @click="login">
-            Valider
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <div v-else class="d-flex flex-row">
-        <!--        <v-card class="rounded-lg" elevation="0" style="width: 47vw; border: 2px solid #9b9b9b; overflow-y: auto; max-height: 94vh;">-->
-        <v-card class="rounded-lg" elevation="0" style="width: 90vw; border: 2px solid #9b9b9b; overflow-y: auto; max-height: 94vh;">
+      <client-only>
+        <v-dialog v-model="needAuth" width="50vw" persistent>
+          <v-card class="rounded-lg" elevation="0" style="border: 2px solid red;">
+            <v-card-title>
+              Connexion
+            </v-card-title>
+            <v-card-text>
+              <a href="https://gitlab.com/-/profile/personal_access_tokens?name=monitor&scopes=read_user,read_registry,read_api" target="_blank">
+                Générer une clé d'API GitLab
+              </a>
+              <v-form v-model="valid">
+                <v-text-field
+                  v-model="GROUP"
+                  label="Groupe"
+                  :rules="[v => !!v || 'Veuillez entrer votre groupe']"
+                />
+                <v-text-field
+                  v-model="TOKEN"
+                  label="Token GitLab"
+                  :rules="[v => !!v || 'Veuillez entrer votre token GitLab']"
+                  type="password"
+                />
+                <v-text-field
+                  v-model="tmpBlacklist"
+                  label="Blacklist"
+                  :rules="[v => isJson(v)]"
+                  type="text"
+                />
+              </v-form>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn color="primary" :disabled="!valid" @click="login">
+                Valider
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </client-only>
+      <div class="d-flex flex-row" style="height: 94vh;">
+        <v-card class="rounded-lg" elevation="0" style="width: 47vw; border: 2px solid #9b9b9b; overflow-y: auto;">
           <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
           <v-card-title class="d-flex justify-center">
             <v-img src="https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-rgb.png" height="50" contain />
@@ -131,11 +133,14 @@
             </div>
           </v-card-text>
         </v-card>
-        <!--        <v-card class="rounded-lg" elevation="0" style="width: 45vw; border: 2px solid #9b9b9b">
+        <v-card class="rounded-lg" elevation="0" style="width: 45vw; border: 2px solid #9b9b9b">
           <v-card-title class="d-flex justify-center">
-            Docker
+            <v-img src="https://www.docker.com/sites/default/files/d8/2019-07/horizontal-logo-monochromatic-white.png" height="40" contain />
           </v-card-title>
-        </v-card>-->
+          <v-card-text class="d-flex justify-center">
+            WIP
+          </v-card-text>
+        </v-card>
       </div>
     </v-col>
   </v-row>
