@@ -1,18 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar :clipped-left="clipped" fixed app elevation="5">
+    <v-system-bar fixed app>
+      <span>Supervision</span>
       <v-spacer />
-      <v-toolbar-title>Supervision</v-toolbar-title>
-      <v-spacer />
-    </v-app-bar>
+      <span>{{ date }}</span>
+    </v-system-bar>
     <v-main>
-      <v-container>
-        <Nuxt class="pt-4" />
+      <v-container fluid>
+        <Nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -21,25 +18,18 @@ export default {
   name: 'DefaultLayout',
   data () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
+      date: this.getDate(),
       title: 'Vuetify.js'
+    }
+  },
+  created () {
+    setInterval(() => {
+      this.date = this.getDate()
+    }, 10000)
+  },
+  methods: {
+    getDate () {
+      return this.$dayjs().format('DD/MM/YYYY, hh:mm')
     }
   }
 }
