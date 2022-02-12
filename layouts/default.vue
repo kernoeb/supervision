@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     getDate () {
-      return this.$dayjs().format('DD/MM/YYYY, hh:mm')
+      return this.$dayjs().format('DD/MM/YYYY, HH:mm')
     }
   }
 }
