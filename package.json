@@ -10,7 +10,8 @@
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:prettier",
-    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
+    "build_linux": "mkdir -p pkg && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js"
   },
   "engines": {
     "node": "v16"
@@ -20,7 +21,11 @@
     "@nuxtjs/dayjs": "^1.4.1",
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.21.0",
+    "cors": "^2.8.5",
+    "nanoexpress": "^5.1.2",
+    "node-ssh": "^12.0.3",
     "nuxt": "^2.15.8",
+    "pkg": "^5.5.2",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",

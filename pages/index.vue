@@ -14,18 +14,3 @@ export default {
   name: 'IndexPage'
 }
 </script>
-
-<style>
-.list-complete-item {
-  transition: all 1s;
-  display: flex;
-  flex-direction: column;
-}
-.list-complete-enter, .list-complete-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-.list-complete-leave-active {
-  position: absolute;
-}
-</style>
