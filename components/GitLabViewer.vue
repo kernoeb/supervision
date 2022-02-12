@@ -159,10 +159,12 @@ export default {
 
     if (!this.$cookies.get('TOKEN', { parseJSON: false })) {
       this.needAuth = true
+      this.fetching = false
       return
     }
     if (!this.$cookies.get('GROUP', { parseJSON: false })) {
       this.needAuth = true
+      this.fetching = false
       return
     }
 
