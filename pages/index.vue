@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
     <v-col xl="8" md="10">
-      <v-card elevation="0" style="background-color: transparent">
+      <v-card v-if="needAuth" elevation="0" style="background-color: transparent">
         <v-card-text>
           <a href="https://gitlab.com/-/profile/personal_access_tokens?name=monitor&scopes=read_user,read_registry,read_api" target="_blank">
             Générer une clé d'API GitLab
@@ -41,31 +41,41 @@
         <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
         <v-card-title class="d-flex justify-center">
           <v-img src="https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-rgb.png" height="50" contain />
+          <v-btn style="position: absolute; right: 15px;" @click="filtered = !filtered; $nextTick(() => $fetch())">
+            <v-icon :color="iconColor">
+              mdi-filter
+            </v-icon>
+          </v-btn>
         </v-card-title>
         <v-card-text>
           <div>
             <div class="title">
-              Jobs en cours
+              Groupe <a :href="`https://gitlab.com/${GROUP}`" target="_blank">{{ GROUP }}</a>
             </div>
             <div class="mb-4" />
-            <div v-for="(project, i) in projects" :key="`jobs_${i}`">
-              <v-card elevation="0" class="text-h5 text-center rounded-lg" style="border: 1px solid #313131; background-color: #fafafa">
-                <span style="font-size: 12px; position: absolute; left: 9px;" class="text--disabled">{{ project.lastTag }}</span>
-                <span>{{ project.title }}</span>
-                <span style="font-size: 12px; position: absolute; right: 9px;" class="text--disabled">{{ project.id }}</span>
-              </v-card>
-              <div v-if="project.nbCommitsSinceLastTag != null && project.lastTag != null">
-                <span v-if="project.nbCommitsSinceLastTag === 0" class="text--disabled">Aucun commit depuis {{ project.lastTag }}</span>
-                <span v-else><a :href="project.url + '/-/commits/master'" target="_blank"><b>{{ project.nbCommitsSinceLastTag === -1 ? '> 10' : project.nbCommitsSinceLastTag }}</b></a> depuis {{ project.lastTag }}</span>
-              </div>
-              <br>
-              <v-row class="mb-4 container pt-0">
-                <v-col v-for="job in project.data" :key="`job_${job.id}`" cols="6" class="pb-0 pr-1 pl-1">
-                  <v-sheet min-height="100" class="fill-height" color="transparent">
-                    <v-lazy
-                      v-model="job.isActive"
-                      class="fill-height"
-                    >
+            <transition-group name="list-complete" tag="div">
+              <div v-for="project in computedProjects" :key="`jobs_${project.id}`" class="list-complete-item">
+                <v-card elevation="0" class="text-h5 text-center rounded-lg" style="border: 1px solid #313131; background-color: #fafafa">
+                  <span style="font-size: 12px; position: absolute; left: 9px;" class="text--disabled">{{ project.lastTag }}</span>
+                  <span>{{ project.name }}</span>
+                  <span style="font-size: 12px; position: absolute; right: 9px;" class="text--disabled">
+                    {{ project.id }}
+                    <v-btn icon small @click="addToBlacklist(project.name)"><v-icon size="15">mdi-trash-can</v-icon></v-btn>
+                  </span>
+                </v-card>
+                <div v-if="project.nbCommitsSinceLastTag != null && project.lastTag != null">
+                  <span v-if="project.nbCommitsSinceLastTag === 0" class="text--disabled">Aucun commit depuis {{ project.lastTag }}</span>
+                  <span v-else>
+                    <span><a :href="project.url + '/-/commits/master'" target="_blank"><b>{{ project.nbCommitsSinceLastTag === -1 ? '> 10' : project.nbCommitsSinceLastTag }}</b></a> depuis {{ project.lastTag }}</span>
+                    <span v-if="project.commitsByType && typeof project.commitsByType === 'object'" class="float-right">
+                      {{ commitByTypes(project.commitsByType) }}
+                    </span>
+                  </span>
+                </div>
+                <br>
+                <v-row class="mb-4 container pt-0">
+                  <v-col v-for="job in project.data" :key="`job_${job.id}`" cols="6" class="pb-0 pr-1 pl-1">
+                    <v-sheet min-height="100" class="fill-height" color="transparent">
                       <v-hover v-slot="{ hover }">
                         <v-card :href="job.web_url" target="_blank" :elevation="hover ? 2 : 0" class="rounded-lg fill-height" style="border: 1px solid lightgrey">
                           <v-card-text>
@@ -105,11 +115,11 @@
                           </v-card-actions>
                         </v-card>
                       </v-hover>
-                    </v-lazy>
-                  </v-sheet>
-                </v-col>
-              </v-row>
-            </div>
+                    </v-sheet>
+                  </v-col>
+                </v-row>
+              </div>
+            </transition-group>
           </div>
         </v-card-text>
       </v-card>
@@ -129,10 +139,19 @@ export default {
       TOKEN: null,
       tmpBlacklist: null,
       needAuth: false,
-      valid: false
+      valid: false,
+      interval: undefined,
+      filtered: false,
+      fetching: false
     }
   },
   async fetch () {
+    if (this.fetching) {
+      return
+    }
+    this.fetching = true
+    this.filtered = this.$cookies.get('only') || false
+
     if (!this.$cookies.get('TOKEN', { parseJSON: false })) {
       this.needAuth = true
       return
@@ -158,31 +177,74 @@ export default {
     const projectPromise = await Promise.all(pool)
     for (const p of projectPromise) {
       const i = projectPromise.indexOf(p)
-      p.title = this.projectList[i].name
+      p.name = this.projectList[i].name
       p.id = this.projectList[i].id
       p.url = this.projectList[i].url
       p.lastTag = this.projects[i] && this.projects[i].lastTag
       p.nbCommitsSinceLastTag = this.projects[i] && this.projects[i].nbCommitsSinceLastTag
+      p.commitsByType = this.projects[i] && this.projects[i].commitsByType
     }
     this.projects = projectPromise
 
+    this.fetching = false
     this.$nextTick(() => {
       this.callAfter()
     })
   },
+  computed: {
+    iconColor () {
+      return this.filtered ? 'green' : 'red'
+    },
+    computedProjects () {
+      const tmp = [...this.projects].sort((a, b) => (a.data?.length || 0) - (b.data?.length || 0)).reverse()
+      if (this.$cookies.get('only')) { return tmp.filter(v => v?.data.length || v.nbCommitsSinceLastTag) }
+      return tmp
+    }
+  },
+  watch: {
+    filtered () {
+      this.$cookies.set('only', this.filtered, { maxAge: 60 * 60 * 24 * 365 })
+    }
+  },
   mounted () {
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.$fetch()
-    }, 30000)
+    }, process.env.NODE_ENV === 'production' ? 30000 : 10000)
+  },
+  destroyed () {
+    clearInterval(this.interval)
   },
   methods: {
+    addToBlacklist (name) {
+      this.$cookies.set('BLACKLIST', [...this.$cookies.get('BLACKLIST') || [], name], { maxAge: 60 * 60 * 24 * 365 })
+      this.projectList = this.projectList.filter(v => !this.$cookies.get('BLACKLIST').includes(v.name))
+      this.projects = this.projects.filter(v => !this.$cookies.get('BLACKLIST').includes(v.name))
+      this.$nextTick(() => {
+        this.$fetch()
+      })
+    },
+    commitByTypes (types) {
+      return Object.entries(types).map(([key, value]) => `${value} ${key}`).sort((a, b) => (a?.split(' ')?.[1] || '').localeCompare((b?.split(' ')?.[1] || ''))).join(', ')
+    },
+    commitType (commit) {
+      if (commit?.title?.toUpperCase()?.includes('FEAT')) return 'feat'
+      if (commit?.title?.toUpperCase()?.includes('FIX')) return 'fix'
+      else return 'other'
+    },
     callAfter () {
       const setCommits = async (project) => {
         try {
           const lastTag = (await this.$axios.get(`https://gitlab.com/api/v4/projects/${project.id}/repository/tags?sort=desc&per_page=1`, this.config)).data[0]
           this.$set(project, 'lastTag', lastTag.name)
           const commits = (await this.$axios.get(`https://gitlab.com/api/v4/projects/${project.id}/repository/commits?sort=desc`, this.config)).data
-          this.$set(project, 'nbCommitsSinceLastTag', commits.findIndex(c => c.id === lastTag.commit.id))
+          const nbCommitsSinceLastTag = commits.findIndex(c => c.id === lastTag.commit.id)
+          this.$set(project, 'nbCommitsSinceLastTag', nbCommitsSinceLastTag)
+          const newCommitsTypes = commits.splice(0, nbCommitsSinceLastTag).map(this.commitType)
+          const commitsByType = newCommitsTypes.reduce((acc, cur) => {
+            acc[cur] = (acc[cur] || 0) + 1
+            return acc
+          }, {})
+          this.$set(project, 'commitsByType', commitsByType)
         } catch (e) {
         }
       }
@@ -204,9 +266,9 @@ export default {
       return true
     },
     login () {
-      this.$cookies.set('TOKEN', this.TOKEN, { path: '/', maxAge: 60 * 60 * 24 * 365 })
-      this.$cookies.set('GROUP', this.GROUP, { path: '/', maxAge: 60 * 60 * 24 * 365 })
-      this.$cookies.set('BLACKLIST', this.tmpBlacklist, { path: '/', maxAge: 60 * 60 * 24 * 365 })
+      this.$cookies.set('TOKEN', this.TOKEN, { maxAge: 60 * 60 * 24 * 365 })
+      this.$cookies.set('GROUP', this.GROUP, { maxAge: 60 * 60 * 24 * 365 })
+      this.$cookies.set('BLACKLIST', this.tmpBlacklist, { maxAge: 60 * 60 * 24 * 365 })
       this.tmpBlacklist = null
       this.needAuth = false
       this.$nextTick(() => {
@@ -217,3 +279,18 @@ export default {
   fetchOnServer: false
 }
 </script>
+
+<style>
+.list-complete-item {
+  transition: all 1s;
+  display: flex;
+  flex-direction: column;
+}
+.list-complete-enter, .list-complete-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+</style>
