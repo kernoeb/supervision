@@ -1,0 +1,34 @@
+name: Build Neutralino App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Run manually
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      # Build App with Neutralino Cli
+      - name: Build app
+        run: |
+          npm install -g @neutralinojs/neu
+          yarn
+          yarn build_app
+          
+      - name: Create artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: supervision-app
+          path: |
+            ./app/dist/supervision-release.zip
