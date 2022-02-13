@@ -2,8 +2,8 @@
   <v-row justify="center" align="center">
     <v-col xl="8" md="10" style="max-width: 100%;">
       <div class="d-flex flex-row" style="height: 94vh;">
-        <LazyGitLabViewer style="width: 47vw;" />
-        <LazyDockerViewer style="width: 47vw;" />
+        <GitLabViewer style="width: 47vw;" />
+        <DockerViewer style="width: 47vw;" />
       </div>
     </v-col>
   </v-row>
