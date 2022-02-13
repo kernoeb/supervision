@@ -18,14 +18,15 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+          cache: 'yarn'
 
       # Build App with Neutralino Cli
       - name: Build app
         run: |
-          npm install -g @neutralinojs/neu
-          yarn
-          yarn build_app
-          
+          npm install -g @neutralinojs/neu || exit 1
+          yarn || exit 1
+          yarn build_app || exit 1
+
       - name: Create artifact
         uses: actions/upload-artifact@v2
         with:
