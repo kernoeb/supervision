@@ -18,7 +18,7 @@ export default {
   name: 'DefaultLayout',
   data () {
     return {
-      date: this.getDate(),
+      date: '',
       title: 'Vuetify.js'
     }
   },

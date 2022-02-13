@@ -155,23 +155,23 @@ export default {
       return
     }
     this.fetching = true
-    this.filtered = this.$cookies.get('only') || false
+    this.filtered = await this.globalGetData('GITLAB_ONLY') || false
 
-    if (!this.$cookies.get('TOKEN', { parseJSON: false })) {
+    if (!await this.globalGetData('TOKEN', { parseJSON: false })) {
       this.needAuth = true
       this.fetching = false
       return
     }
-    if (!this.$cookies.get('GROUP', { parseJSON: false })) {
+    if (!await this.globalGetData('GROUP', { parseJSON: false })) {
       this.needAuth = true
       this.fetching = false
       return
     }
 
-    if (!this.TOKEN) { this.TOKEN = this.$cookies.get('TOKEN', { parseJSON: false }) } // remove this line
-    if (!this.GROUP) { this.GROUP = this.$cookies.get('GROUP', { parseJSON: false }) }
+    if (!this.TOKEN) { this.TOKEN = await this.globalGetData('TOKEN', { parseJSON: false }) } // remove this line
+    if (!this.GROUP) { this.GROUP = await this.globalGetData('GROUP', { parseJSON: false }) }
     if (!this.config) { this.config = { headers: { 'PRIVATE-TOKEN': this.TOKEN } } }
-    const blacklist = this.$cookies.get('BLACKLIST') || []
+    const blacklist = await this.globalGetData('BLACKLIST') || []
 
     if (!this.projectList) {
       const tmp = (await this.$axios.get(`https://gitlab.com/api/v4/groups/${this.GROUP}/projects?per_page=50&archived=false`, this.config))
@@ -209,13 +209,13 @@ export default {
         if (!b.data || (b.data && b.data.length === 0)) { return -1 }
         return 0
       })
-      if (this.$cookies.get('only')) { return tmp.filter(v => v?.data.length || v.nbCommitsSinceLastTag) }
+      if (this.filtered) { return tmp.filter(v => v?.data.length || v.nbCommitsSinceLastTag) }
       return tmp
     }
   },
   watch: {
-    filtered () {
-      this.$cookies.set('only', this.filtered, { maxAge: 60 * 60 * 24 * 365 })
+    async filtered () {
+      await this.globalSetData('GITLAB_ONLY', this.filtered, { maxAge: 60 * 60 * 24 * 365 })
     }
   },
   mounted () {
@@ -227,10 +227,33 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    addToBlacklist (name) {
-      this.$cookies.set('BLACKLIST', [...this.$cookies.get('BLACKLIST') || [], name], { maxAge: 60 * 60 * 24 * 365 })
-      this.projectList = this.projectList.filter(v => !this.$cookies.get('BLACKLIST').includes(v.name))
-      this.projects = this.projects.filter(v => !this.$cookies.get('BLACKLIST').includes(v.name))
+    async globalGetData (key, opts) {
+      if (typeof Neutralino !== 'undefined' && Neutralino) {
+        try {
+          if (!opts || (opts && opts.parseJson)) {
+            return JSON.parse(await Neutralino.storage.getData(key))
+          }
+          return await Neutralino.storage.getData(key)
+        } catch (err) {
+          console.log(err)
+          return undefined
+        }
+      } else {
+        return this.$cookies.get(key, opts)
+      }
+    },
+    async globalSetData (key, value, opts) {
+      if (typeof Neutralino !== 'undefined' && Neutralino) {
+        await Neutralino.storage.setData(key, value)
+      } else {
+        this.$cookies.set(key, value, opts)
+      }
+    },
+    async addToBlacklist (name) {
+      await this.globalSetData('BLACKLIST', [...await this.globalGetData('BLACKLIST') || [], name], { maxAge: 60 * 60 * 24 * 365 })
+      const tmpBLACKLIST = await this.globalGetData('BLACKLIST') || []
+      this.projectList = this.projectList.filter(v => !tmpBLACKLIST.includes(v.name))
+      this.projects = this.projects.filter(v => !tmpBLACKLIST.includes(v.name))
       this.$nextTick(() => {
         this.$fetch()
       })
@@ -277,10 +300,10 @@ export default {
       }
       return true
     },
-    login () {
-      this.$cookies.set('TOKEN', this.TOKEN, { maxAge: 60 * 60 * 24 * 365 })
-      this.$cookies.set('GROUP', this.GROUP, { maxAge: 60 * 60 * 24 * 365 })
-      this.$cookies.set('BLACKLIST', this.tmpBlacklist, { maxAge: 60 * 60 * 24 * 365 })
+    async login () {
+      await this.globalSetData('TOKEN', this.TOKEN, { maxAge: 60 * 60 * 24 * 365 })
+      await this.globalSetData('GROUP', this.GROUP, { maxAge: 60 * 60 * 24 * 365 })
+      await this.globalSetData('BLACKLIST', this.tmpBlacklist, { maxAge: 60 * 60 * 24 * 365 })
       this.tmpBlacklist = null
       this.needAuth = false
       this.$nextTick(() => {

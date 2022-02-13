@@ -1,7 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
+console.log(process.env.NEUTRALINO_BUILD)
+
 export default {
   target: 'static',
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -15,7 +18,23 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: process.env.NEUTRALINO_BUILD
+      ? [
+          {
+            src: 'js/neutralino.js',
+            body: true,
+            hid: 'neutralino',
+            defer: true
+          },
+          {
+            src: 'js/main.js',
+            body: true,
+            hid: 'main-script',
+            defer: true
+          }
+        ]
+      : undefined
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
