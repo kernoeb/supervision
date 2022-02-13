@@ -33,4 +33,4 @@ jobs:
           name: supervision-app
           path: |
             ./app/dist/supervision/
-            ./pkg/docker-monitor
+            ./pkg/

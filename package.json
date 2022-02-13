@@ -11,9 +11,9 @@
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
-    "build_linux": "mkdir -p pkg && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js",
+    "build_pkg_linux": "mkdir -p pkg && rm -rf pkg/*.node && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js && cp ./node_modules/uWebSockets.js/uws_linux_*93.node pkg/",
     "build_app": "./scripts/build_app.sh",
-    "build_all": "mkdir -p pkg && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js && ./scripts/build_app.sh && chmod +x pkg/docker-monitor && chmod +x app/dist/supervision/supervision-*"
+    "build_all": "yarn build_pkg_linux && yarn build_app && chmod +x pkg/docker-monitor && chmod +x app/dist/supervision/supervision-*"
   },
   "main": "index.html",
   "engines": {

@@ -6,7 +6,7 @@ const { NodeSSH } = require('node-ssh')
 const ssh = new NodeSSH()
 
 if (!process.env.SSH_HOST || !process.env.SSH_USER || !process.env.SSH_KEY) {
-  console.error('Please set the following environment variables: HOST, USER, SSH_KEY')
+  console.error('Please at least set the following environment variables: SSH_HOST, SSH_HOST, SSH_KEY.\nOptional : PORT, SSH_PORT, SSH_PASS')
   process.exit(1)
 }
 
