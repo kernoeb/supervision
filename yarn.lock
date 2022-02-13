@@ -12887,16 +12887,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-ssh@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "simple-ssh@npm:1.1.0"
-  dependencies:
-    ssh2: ^1.5.0
-    xtend: ^4.0.1
-  checksum: 5b8918931eb8561a1568669ef74412e7a105ead74caf1d7f5331c26fa7a433bed075a19db36f09e8a52582051e28322dd87a9f3fc18f826f962f035beb507af9
-  languageName: node
-  linkType: hard
-
 "simple-swizzle@npm:^0.2.2":
   version: 0.2.2
   resolution: "simple-swizzle@npm:0.2.2"
@@ -13486,7 +13476,6 @@ __metadata:
     nuxt: ^2.15.8
     pkg: ^5.5.2
     prettier: ^2.5.1
-    simple-ssh: ^1.1.0
     vue: ^2.6.14
     vue-server-renderer: ^2.6.14
     vue-template-compiler: ^2.6.14
@@ -14903,7 +14892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xtend@npm:^4.0.0, xtend@npm:^4.0.1, xtend@npm:~4.0.1":
+"xtend@npm:^4.0.0, xtend@npm:~4.0.1":
   version: 4.0.2
   resolution: "xtend@npm:4.0.2"
   checksum: ac5dfa738b21f6e7f0dd6e65e1b3155036d68104e67e5d5d1bde74892e327d7e5636a076f625599dc394330a731861e87343ff184b0047fef1360a7ec0a5a36a
