@@ -1,4 +1,4 @@
-name: Build Neutralino App
+name: Build with pkg and neutralino
 
 on:
   push:
@@ -25,11 +25,12 @@ jobs:
         run: |
           npm install -g @neutralinojs/neu || exit 1
           yarn || exit 1
-          yarn build_app || exit 1
+          yarn build_all || exit 1
 
       - name: Create artifact
         uses: actions/upload-artifact@v2
         with:
           name: supervision-app
           path: |
-            ./app/dist/supervision-release.zip
+            ./app/dist/supervision/
+            ./pkg/docker-monitor
