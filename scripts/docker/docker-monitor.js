@@ -5,14 +5,14 @@ const { NodeSSH } = require('node-ssh')
 
 const ssh = new NodeSSH()
 
-if (!process.env.HOST || !process.env.USER || !process.env.SSH_KEY) {
+if (!process.env.SSH_HOST || !process.env.SSH_USER || !process.env.SSH_KEY) {
   console.error('Please set the following environment variables: HOST, USER, SSH_KEY')
   process.exit(1)
 }
 
 ssh.connect({
-  host: process.env.HOST,
-  username: process.env.USER,
+  host: process.env.SSH_HOST,
+  username: process.env.SSH_USER,
   privateKey: path.join(process.env.SSH_KEY),
   passphrase: process.env.SSH_PASS || undefined,
   port: process.env.SSH_PORT || 22
@@ -76,7 +76,7 @@ ssh.connect({
     getDockerStats().then((data) => {
       if (data) globalStats = data
     })
-  }, 60 * 1000 * 10) // every 10 seconds
+  }, 60 * 1000 * 10) // every 10 minutes
 
   /**
    * Simple nano express server
@@ -89,7 +89,7 @@ ssh.connect({
     return res.json(globalStats)
   })
 
-  const PORT = 20302
+  const PORT = process.env.PORT || 20302
   console.log('Starting server on port ' + PORT + '...')
   getDockerStats().then((v) => {
     if (v) globalStats = v

@@ -133,8 +133,13 @@
 </template>
 
 <script>
+import StorageManagement from '../mixins/StorageManagement.js'
+
 export default {
   name: 'GitLabViewer',
+  mixins: [
+    StorageManagement
+  ],
   data () {
     return {
       projectList: null,
@@ -227,28 +232,6 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    async globalGetData (key, opts) {
-      if (typeof Neutralino !== 'undefined' && Neutralino) {
-        try {
-          if (!opts || (opts && opts.parseJson)) {
-            return JSON.parse(await Neutralino.storage.getData(key))
-          }
-          return await Neutralino.storage.getData(key)
-        } catch (err) {
-          console.log(err)
-          return undefined
-        }
-      } else {
-        return this.$cookies.get(key, opts)
-      }
-    },
-    async globalSetData (key, value, opts) {
-      if (typeof Neutralino !== 'undefined' && Neutralino) {
-        await Neutralino.storage.setData(key, value)
-      } else {
-        this.$cookies.set(key, value, opts)
-      }
-    },
     async addToBlacklist (name) {
       await this.globalSetData('BLACKLIST', [...await this.globalGetData('BLACKLIST') || [], name], { maxAge: 60 * 60 * 24 * 365 })
       const tmpBLACKLIST = await this.globalGetData('BLACKLIST') || []

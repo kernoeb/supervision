@@ -3,6 +3,23 @@
     <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
     <v-card-title class="d-flex justify-center">
       <v-img src="https://www.docker.com/sites/default/files/d8/2019-07/horizontal-logo-monochromatic-white.png" height="40" contain />
+      <v-menu offset-y position-x="10" :close-on-click="false" :close-on-content-click="false">
+        <template #activator="{ on, attrs }">
+          <v-btn v-bind="attrs" style="position: absolute; right: 15px;" v-on="on">
+            <v-icon>
+              mdi-cogs
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-card outlined class="pa-4">
+          <v-card-title>Modifier l'URL</v-card-title>
+          <v-text-field
+            v-model="DOCKER_URL"
+            hide-details
+            @change="globalSetData('DOCKER_URL', $event); $nextTick(() => $fetch())"
+          />
+        </v-card>
+      </v-menu>
     </v-card-title>
     <v-card-text>
       <div class="mb-4" />
@@ -40,17 +57,25 @@
 </template>
 
 <script>
+import StorageManagement from '../mixins/StorageManagement.js'
+
 export default {
   name: 'DockerViewer',
+  mixins: [
+    StorageManagement
+  ],
   data () {
     return {
       containers: [],
-      interval: null
+      interval: null,
+      DOCKER_URL: ''
     }
   },
   async fetch () {
+    this.DOCKER_URL = await this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
+
     try {
-      const { data } = await this.$axios.get('//localhost:20302/')
+      const { data } = await this.$axios.get(this.DOCKER_URL)
       this.containers = data
     } catch (err) {
       console.error(err)
