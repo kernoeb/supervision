@@ -12,8 +12,8 @@
     "lint": "yarn lint:js && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
     "build_linux": "mkdir -p pkg && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js",
-    "app_build": "./scripts/build_app.sh",
-    "build_all": "nuxt generate && mkdir -p pkg && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js && ./scripts/build_app.sh"
+    "build_app": "./scripts/build_app.sh",
+    "build_all": "mkdir -p pkg && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js && ./scripts/build_app.sh"
   },
   "main": "index.html",
   "engines": {
