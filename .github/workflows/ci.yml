@@ -22,7 +22,7 @@ jobs:
 
       # Build App with Neutralino Cli
       - name: Build app
-        run: yarn && build_pkg_linux || exit 1
+        run: yarn && yarn build_pkg_linux || exit 1
 
       - name: Create artifact
         uses: actions/upload-artifact@v2
