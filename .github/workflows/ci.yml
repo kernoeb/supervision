@@ -1,10 +1,10 @@
-name: Build with pkg and neutralino
+name: Build with pkg
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   # Run manually
   workflow_dispatch:
@@ -22,15 +22,11 @@ jobs:
 
       # Build App with Neutralino Cli
       - name: Build app
-        run: |
-          npm install -g @neutralinojs/neu || exit 1
-          yarn || exit 1
-          yarn build_all || exit 1
+        run: yarn && build_pkg_linux || exit 1
 
       - name: Create artifact
         uses: actions/upload-artifact@v2
         with:
           name: supervision-app
           path: |
-            ./app/dist/supervision/
             ./pkg/

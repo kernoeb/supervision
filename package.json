@@ -11,9 +11,7 @@
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
-    "build_pkg_linux": "rm -rf pkg/ && mkdir -p pkg/ && pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js && cp ./node_modules/uWebSockets.js/uws_linux_*93.node pkg/",
-    "build_app": "./scripts/build_app.sh",
-    "build_all": "yarn build_pkg_linux && yarn build_app && chmod +x pkg/docker-monitor && chmod +x app/dist/supervision/supervision-*"
+    "build_pkg_linux": "rm -rf pkg/ && NODE_ENV=production pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js"
   },
   "main": "index.html",
   "engines": {
@@ -23,12 +21,13 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/dayjs": "^1.4.1",
     "cookie-universal-nuxt": "^2.1.5",
-    "core-js": "^3.21.0",
+    "core-js": "^3.21.1",
+    "node-ssh": "^12.0.3",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
-    "vuetify": "^2.6.3",
+    "vuetify": "^2.6.4",
     "webpack": "^4.46.0"
   },
   "devDependencies": {
@@ -36,15 +35,12 @@
     "@nuxtjs/eslint-config": "^8.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/vuetify": "^1.12.3",
-    "cors": "^2.8.5",
-    "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-nuxt": "^3.1.0",
-    "eslint-plugin-vue": "^8.4.1",
-    "nanoexpress": "^5.1.2",
-    "node-ssh": "^12.0.3",
+    "eslint-plugin-vue": "^8.5.0",
     "pkg": "^5.5.2",
     "prettier": "^2.5.1"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.2.0"
 }
