@@ -24,11 +24,12 @@
     "core-js": "^3.21.1",
     "node-ssh": "^12.0.3",
     "nuxt": "^2.15.8",
-    "vue": "^2.6.14",
+    "p5": "^1.4.1",
+    "vue": "2.6.14",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "vuetify": "^2.6.4",
-    "webpack": "^4.46.0"
+    "webpack": "4.46.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
