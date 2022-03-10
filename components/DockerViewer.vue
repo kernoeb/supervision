@@ -13,6 +13,7 @@
       />
       <v-menu
         offset-y
+        position-x="10"
         :close-on-click="false"
         :close-on-content-click="false"
       >

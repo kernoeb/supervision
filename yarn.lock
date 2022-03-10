@@ -8622,13 +8622,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p5@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "p5@npm:1.4.1"
-  checksum: d286c4bf044a1ba60d852bcd4d1787d005a9be096ec2957a8a9dc4de12681a14116c156b0d206e2cdef7d75dcd9717603e9ad2ab980a28c67179607c750fa60b
-  languageName: node
-  linkType: hard
-
 "pako@npm:~1.0.5":
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
@@ -11373,14 +11366,13 @@ __metadata:
     eslint-plugin-vue: ^8.5.0
     node-ssh: ^12.0.3
     nuxt: ^2.15.8
-    p5: ^1.4.1
     pkg: ^5.5.2
     prettier: ^2.5.1
-    vue: 2.6.14
+    vue: ^2.6.14
     vue-server-renderer: ^2.6.14
     vue-template-compiler: ^2.6.14
     vuetify: ^2.6.4
-    webpack: 4.46.0
+    webpack: ^4.46.0
   languageName: unknown
   linkType: soft
 
@@ -12284,7 +12276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:2.6.14, vue@npm:^2.6.12":
+"vue@npm:^2.6.12, vue@npm:^2.6.14":
   version: 2.6.14
   resolution: "vue@npm:2.6.14"
   checksum: 23524a1bdca094d62cb3491a46317eed75184b5d61d28fa846ea5d2b241c1cc7084fc67ee259d47a50a6d0bbc33ecaceb7bb52bff81312fe7da07263f3419942
@@ -12430,7 +12422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:4.46.0, webpack@npm:^4.46.0":
+"webpack@npm:^4.46.0":
   version: 4.46.0
   resolution: "webpack@npm:4.46.0"
   dependencies:
