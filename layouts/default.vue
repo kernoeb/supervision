@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div v-if="showCanvas" id="dvd" style="position: absolute; width: 100%; height: 100%; z-index: 2000;" />
+    <div v-if="showCanvas" id="dvd" style="position: absolute; width: 100%; height: 100%; z-index: 2000; pointer-events:none;" />
     <v-system-bar fixed app>
       <span>Supervision</span>
       <v-spacer />
