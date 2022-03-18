@@ -115,10 +115,15 @@ export default {
   },
   computed: {
     computedContainers () {
-      const tmp = [...this.containers].sort((a, b) =>
+      const tmp = [...this.containers]
+      const filtered = tmp.filter(
+        container => container.state !== 'running' || this.cpuColor(container.cpu) || this.memoryColor(container.memory[0])
+      ).sort((a, b) =>
         a.name.localeCompare(b.name)
       )
-      return tmp.sort((a, b) => (a.state !== 'running' ? -1 : 1))
+      return [...filtered, ...tmp.filter(container => !filtered.some(f => f.name === container.name)).sort((a, b) =>
+        a.name.localeCompare(b.name)
+      )]
     }
   },
   mounted () {
@@ -141,9 +146,9 @@ export default {
       const unitCurrent = current.match(/[a-zA-Z]+$/)[0].trim()
       const byteCurrent = ByteConverter.value(parseFloat(current), unitCurrent)
       const toGBCurrent = ByteConverter.convert(byteCurrent, 'GiB')
-      if (toGBCurrent.value > 7) { // 10 GiB
+      if (toGBCurrent.value > 7) { // 7 GiB
         return 'error'
-      } else if (toGBCurrent.value > 2) { // 1 GiB
+      } else if (toGBCurrent.value > 2) { // 2 GiB
         return 'warning'
       }
     },
