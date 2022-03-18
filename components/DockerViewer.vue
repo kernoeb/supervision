@@ -7,7 +7,7 @@
     <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
     <v-card-title class="d-flex justify-center">
       <v-img
-        src="https://www.docker.com/sites/default/files/d8/2019-07/horizontal-logo-monochromatic-white.png"
+        :src="require('@/assets/docker.png')"
         height="40"
         contain
       />
@@ -72,10 +72,10 @@
               </v-card-title>
               <v-card-text>
                 <div>
-                  <v-chip small>
+                  <v-chip small :color="memoryColor(container.memory[0])">
                     {{ container.memory[0] }} / {{ container.memory[1] }}
                   </v-chip>
-                  <v-chip small>
+                  <v-chip small :color="cpuColor(container.cpu)">
                     {{ container.cpu }}
                   </v-chip>
                 </div>
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import { ByteConverter } from '@wtfcode/byte-converter'
 import StorageManagement from '../mixins/StorageManagement.js'
 
 export default {
@@ -127,6 +128,25 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    cpuColor (cpu) {
+      // parse cpu percentage
+      const cpuParsed = parseFloat(cpu.replace(',', '.').replace('%', ''))
+      if (cpuParsed > 90) {
+        return 'error'
+      } else if (cpuParsed > 50) {
+        return 'warning'
+      }
+    },
+    memoryColor (current) {
+      const unitCurrent = current.match(/[a-zA-Z]+$/)[0].trim()
+      const byteCurrent = ByteConverter.value(parseFloat(current), unitCurrent)
+      const toGBCurrent = ByteConverter.convert(byteCurrent, 'GiB')
+      if (toGBCurrent.value > 7) { // 10 GiB
+        return 'error'
+      } else if (toGBCurrent.value > 2) { // 1 GiB
+        return 'warning'
+      }
+    },
     getColor (state) {
       if (state === 'unknown') return 'orange'
       return state === 'running' ? 'green' : 'red'

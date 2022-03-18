@@ -47,7 +47,7 @@
     <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
     <v-card-title class="d-flex justify-center">
       <v-img
-        src="https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-rgb.png"
+        :src="require('@/assets/gitlab.png')"
         height="50"
         contain
       />

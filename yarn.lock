@@ -2395,6 +2395,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@wtfcode/byte-converter@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@wtfcode/byte-converter@npm:2.0.7"
+  checksum: ce0c0ac796142e4b6c78b64458185f003cf3b358927e99868b2b3d89cada4b42d9d701b3504e5123d9a7699b8625b15dc341d2be6ff62112826c6554e2e1dd86
+  languageName: node
+  linkType: hard
+
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0
   resolution: "@xtuc/ieee754@npm:1.2.0"
@@ -11367,6 +11374,7 @@ __metadata:
     "@nuxtjs/eslint-config": ^8.0.0
     "@nuxtjs/eslint-module": ^3.0.2
     "@nuxtjs/vuetify": ^1.12.3
+    "@wtfcode/byte-converter": ^2.0.7
     cookie-universal-nuxt: ^2.1.5
     core-js: ^3.21.1
     eslint: ^8.11.0
