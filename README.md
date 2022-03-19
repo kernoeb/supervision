@@ -1,5 +1,7 @@
 # Supervision
 
+![capture](assets/capture.png)
+
 ## Clone the repository
 
 ```bash
