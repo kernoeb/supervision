@@ -18,11 +18,14 @@
       >
         <template #activator="{ on, attrs }">
           <v-btn
+            small
             v-bind="attrs"
             style="position: absolute; right: 15px"
             v-on="on"
           >
-            <v-icon> mdi-cogs </v-icon>
+            <v-icon small>
+              mdi-cogs
+            </v-icon>
           </v-btn>
         </template>
         <v-card outlined class="pa-4">
@@ -103,8 +106,7 @@ export default {
     }
   },
   async fetch () {
-    this.DOCKER_URL =
-      this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
+    this.DOCKER_URL = this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
 
     try {
       const { data } = await this.$axios.get(this.DOCKER_URL)
@@ -127,7 +129,7 @@ export default {
     }
   },
   mounted () {
-    this.interval = setInterval(() => this.$fetch(), 20000)
+    this.interval = setInterval(() => this.$fetch(), 20000) // 20s
   },
   destroyed () {
     clearInterval(this.interval)

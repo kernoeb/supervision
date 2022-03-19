@@ -48,12 +48,16 @@
     <v-card-title class="d-flex justify-center">
       <v-img
         :src="require('@/assets/gitlab.png')"
-        height="50"
+        height="45"
         contain
       />
+      <div class="subtitle-2 text--disabled">
+        Groupe <a :href="`https://gitlab.com/${GROUP}`" target="_blank">{{ GROUP }}</a>
+      </div>
       <v-tooltip top>
         <template #activator="{ on, attrs }">
           <v-btn
+            small
             v-bind="attrs"
             style="position: absolute; right: 15px"
             v-on="on"
@@ -62,7 +66,7 @@
               $nextTick(() => $fetch())
             "
           >
-            <v-icon :color="iconColor">
+            <v-icon small :color="iconColor">
               {{ filtered ? 'mdi-filter' : 'mdi-filter-off' }}
             </v-icon>
           </v-btn>
@@ -75,13 +79,7 @@
     </v-card-title>
     <v-card-text>
       <div>
-        <div class="title">
-          Groupe
-          <a :href="`https://gitlab.com/${GROUP}`" target="_blank">{{
-            GROUP
-          }}</a>
-        </div>
-        <div class="mb-4" />
+        <div class="mb-2" />
         <transition-group name="list-complete" tag="div">
           <div
             v-for="project in computedProjects"
@@ -90,7 +88,7 @@
           >
             <v-card
               elevation="0"
-              class="text-h5 text-center rounded-lg"
+              class="text-h6 text-center rounded-lg"
               style="border: 1px solid #313131; background-color: #fafafa"
             >
               <span

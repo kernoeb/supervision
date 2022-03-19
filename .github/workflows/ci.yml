@@ -20,9 +20,9 @@ jobs:
           node-version: '16'
           cache: 'yarn'
 
-      # Build App with Neutralino Cli
-      - name: Build app
-        run: yarn && yarn build_pkg_linux || exit 1
+      # Build pkg apps
+      - name: pkg
+        run: yarn && yarn build_docker_monitor && yarn build_uptime_monitor || exit 1
 
       - name: Create artifact
         uses: actions/upload-artifact@v2

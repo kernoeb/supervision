@@ -11386,6 +11386,7 @@ __metadata:
     p5: ^1.4.1
     pkg: ^5.5.2
     prettier: ^2.6.0
+    tiny-json-http: ^7.4.2
     vue: 2.6.14
     vue-server-renderer: ^2.6.14
     vue-template-compiler: ^2.6.14
@@ -11641,6 +11642,13 @@ __metadata:
   version: 0.3.0
   resolution: "timsort@npm:0.3.0"
   checksum: 1a66cb897dacabd7dd7c91b7e2301498ca9e224de2edb9e42d19f5b17c4b6dc62a8d4cbc64f28be82aaf1541cb5a78ab49aa818f42a2989ebe049a64af731e2a
+  languageName: node
+  linkType: hard
+
+"tiny-json-http@npm:^7.4.2":
+  version: 7.4.2
+  resolution: "tiny-json-http@npm:7.4.2"
+  checksum: 73ccfc4a55890681d1a7873f4028854e715954a7800d2e4e2808a0bce0a5c62ca4891de1c26fe7226f52d5468fde31da6058331070905eac2cbd973e193466ad
   languageName: node
   linkType: hard
 
