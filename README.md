@@ -26,18 +26,19 @@ yarn install
 yarn generate
 ```
 
-## Build Setup (package)
+## Build Setup (packages)
 
 ```bash
 # Install dependencies
 yarn install
 
 # Build the package, with pkg
-yarn build_pkg_linux
+yarn build_docker_monitor
+yarn build_uptime_monitor
 cd pkg || exit 1
 ```
 
-## Usage (package)
+## Usage (docker monitor package)
 
 The package is a binary executable, which can be used to run the Docker supervision tool.  
 Some environment variables are required to use the package:
@@ -51,3 +52,12 @@ SSH_PASS=xxxx SSH_KEY=~/.ssh/xxxxx SSH_HOST=xxx.xxx.xx SSH_USER=xxx SSH_PORT=xx 
 > SSH_PORT is the port of the SSH server, default is 22 (optional)  
 > SSH_KEY is the path to the SSH key  
 > SSH_PASS is the passphrase of the SSH key (optional)  
+
+## Usage (uptime robot monitor package)
+
+The package is a binary executable, which can be used to run the Uptime Robot supervision tool.  
+Some environment variables are required to use the package:
+
+```bash
+API_KEY=xxxxx ./uptime-monitor
+```
