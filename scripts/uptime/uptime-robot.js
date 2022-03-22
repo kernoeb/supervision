@@ -22,32 +22,36 @@ const normalizeText = (text) => {
 
 const pullUptimeRobot = async () => {
   console.log('Pulling uptime robot...')
-  const { body } = await tiny.post({
-    url: 'https://api.uptimerobot.com/v2/getMonitors',
-    data: {
-      api_key: process.env.API_KEY, format: 'json', logs: 0, custom_uptime_ratios: 30
-    },
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'cache-control': 'no-cache'
-    }
-  })
-  const tmp = body.monitors
-  globalUptime = {
-    timestamp: new Date().toISOString(),
-    monitors: tmp.map((monitor) => {
-      return {
-        id: monitor.id,
-        name: normalizeText(monitor.friendly_name),
-        status: statuses[monitor.status],
-        uptime: parseFloat(monitor.custom_uptime_ratio) / 100
+  try {
+    const { body } = await tiny.post({
+      url: 'https://api.uptimerobot.com/v2/getMonitors',
+      data: {
+        api_key: process.env.API_KEY, format: 'json', logs: 0, custom_uptime_ratios: 30
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cache-control': 'no-cache'
       }
     })
+    const tmp = body.monitors
+    globalUptime = {
+      timestamp: new Date().toISOString(),
+      monitors: tmp.map((monitor) => {
+        return {
+          id: monitor.id,
+          name: normalizeText(monitor.friendly_name),
+          status: statuses[monitor.status],
+          uptime: parseFloat(monitor.custom_uptime_ratio) / 100
+        }
+      })
+    }
+  } catch (e) {
+    console.error(e)
   }
 }
 
 pullUptimeRobot()
-setInterval(pullUptimeRobot, 1000 * 60) // every minute
+setInterval(pullUptimeRobot, 1000 * 120) // every 2 minutes
 
 const PORT = process.env.PORT || 20303
 
