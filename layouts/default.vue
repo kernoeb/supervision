@@ -91,6 +91,15 @@ export default {
     }
   },
   methods: {
+    /* async pageLoop () {
+      await this.$router.push({ path: '/docker' })
+      await new Promise(resolve => setTimeout(resolve, 10000))
+      await this.$router.push({ path: '/gitlab' })
+      await new Promise(resolve => setTimeout(resolve, 10000))
+      await this.$router.push({ path: '/uptime' })
+      await new Promise(resolve => setTimeout(resolve, 10000))
+      await this.pageLoop() // loop
+    }, */
     getDate () {
       return this.$dayjs().format('DD/MM/YYYY, HH:mm')
     }
@@ -101,5 +110,11 @@ export default {
 <style scoped>
 .v-application {
   background-color: #fafafa;
+}
+</style>
+
+<style>
+html {
+  overflow-y: scroll;
 }
 </style>
