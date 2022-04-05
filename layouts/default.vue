@@ -4,7 +4,10 @@
     <v-system-bar fixed app>
       <span>Supervision</span>
       <v-spacer />
-      <span>{{ date }}</span>
+      <span class="mr-2">{{ date }}</span>
+      <v-btn v-if="!fullscreen" x-small icon @click="setFullscreen()">
+        <v-icon>mdi-fullscreen</v-icon>
+      </v-btn>
     </v-system-bar>
     <v-main>
       <v-container fluid>
@@ -20,15 +23,22 @@ export default {
   data () {
     return {
       showCanvas: false,
+      fullscreen: false,
       date: ''
     }
   },
   created () {
+    this.date = this.getDate()
     setInterval(() => {
       this.date = this.getDate()
     }, 10000)
   },
   mounted () {
+    // Check if fullscreen is active every 2 seconds
+    setInterval(() => {
+      this.fullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement
+    }, 2000)
+
     // This is really important, don't remove it
     if (localStorage.getItem('dvd')) {
       this.showCanvas = true
@@ -91,6 +101,22 @@ export default {
     }
   },
   methods: {
+    setFullscreen () {
+      const element = document.body // Make the body go full screen.
+
+      // Supports most browsers and their versions.
+      const requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen
+
+      if (requestMethod) { // Native full screen.
+        requestMethod.call(element)
+      } else if (typeof window.ActiveXObject !== 'undefined') { // Older IE.
+        // eslint-disable-next-line no-undef
+        const wscript = new ActiveXObject('WScript.Shell')
+        if (wscript !== null) {
+          wscript.SendKeys('{F11}')
+        }
+      }
+    },
     getDate () {
       return this.$dayjs().format('DD/MM/YYYY, HH:mm')
     }
