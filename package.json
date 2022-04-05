@@ -39,12 +39,12 @@
     "@nuxtjs/eslint-config": "^8.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/vuetify": "^1.12.3",
-    "eslint": "^8.11.0",
+    "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-nuxt": "^3.2.0",
     "eslint-plugin-vue": "^8.5.0",
     "pkg": "^5.5.2",
-    "prettier": "^2.6.0"
+    "prettier": "^2.6.2"
   },
   "packageManager": "yarn@3.2.0"
 }
