@@ -46,13 +46,10 @@
     </client-only>
     <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
     <v-card-title class="d-flex justify-center">
-      <v-img
-        :src="require('@/assets/gitlab.png')"
-        height="45"
-        contain
-      />
+      <v-img :src="require('@/assets/gitlab.png')" height="45" contain />
       <div class="subtitle-2 text--disabled">
-        Groupe <a :href="`https://gitlab.com/${GROUP}`" target="_blank">{{ GROUP }}</a>
+        Groupe
+        <a :href="`https://gitlab.com/${GROUP}`" target="_blank">{{ GROUP }}</a>
       </div>
       <v-tooltip top>
         <template #activator="{ on, attrs }">

@@ -6,16 +6,8 @@
   >
     <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
     <v-card-title class="d-flex justify-center">
-      <v-img
-        :src="require('@/assets/docker.png')"
-        height="40"
-        contain
-      />
-      <v-menu
-        offset-y
-        :close-on-click="false"
-        :close-on-content-click="false"
-      >
+      <v-img :src="require('@/assets/docker.png')" height="40" contain />
+      <v-menu offset-y :close-on-click="false" :close-on-content-click="false">
         <template #activator="{ on, attrs }">
           <v-btn
             small
@@ -106,7 +98,8 @@ export default {
     }
   },
   async fetch () {
-    this.DOCKER_URL = this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
+    this.DOCKER_URL =
+      this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
 
     try {
       const { data } = await this.$axios.get(this.DOCKER_URL)
@@ -118,14 +111,22 @@ export default {
   computed: {
     computedContainers () {
       const tmp = [...this.containers]
-      const filtered = tmp.filter(
-        container => container.state !== 'running' || this.cpuColor(container.cpu) || this.memoryColor(container.memory[0])
-      ).sort((a, b) =>
-        a.name.localeCompare(b.name)
-      )
-      return [...filtered, ...tmp.filter(container => !filtered.some(f => f.name === container.name)).sort((a, b) =>
-        a.name.localeCompare(b.name)
-      )]
+      const filtered = tmp
+        .filter(
+          container =>
+            container.state !== 'running' ||
+            this.cpuColor(container.cpu) ||
+            this.memoryColor(container.memory[0])
+        )
+        .sort((a, b) => a.name.localeCompare(b.name))
+      return [
+        ...filtered,
+        ...tmp
+          .filter(
+            container => !filtered.some(f => f.name === container.name)
+          )
+          .sort((a, b) => a.name.localeCompare(b.name))
+      ]
     }
   },
   mounted () {
@@ -148,9 +149,11 @@ export default {
       const unitCurrent = current.match(/[a-zA-Z]+$/)[0].trim()
       const byteCurrent = ByteConverter.value(parseFloat(current), unitCurrent)
       const toGBCurrent = ByteConverter.convert(byteCurrent, 'GiB')
-      if (toGBCurrent.value > 7) { // 7 GiB
+      if (toGBCurrent.value > 7) {
+        // 7 GiB
         return 'error'
-      } else if (toGBCurrent.value > 2) { // 2 GiB
+      } else if (toGBCurrent.value > 2) {
+        // 2 GiB
         return 'warning'
       }
     },

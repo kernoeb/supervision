@@ -26,7 +26,10 @@ const pullUptimeRobot = async () => {
     const { body } = await tiny.post({
       url: 'https://api.uptimerobot.com/v2/getMonitors',
       data: {
-        api_key: process.env.API_KEY, format: 'json', logs: 0, custom_uptime_ratios: 30
+        api_key: process.env.API_KEY,
+        format: 'json',
+        logs: 0,
+        custom_uptime_ratios: 30
       },
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -79,6 +82,8 @@ createServer((req, res) => {
 
   res.writeHead(405, headers)
   res.end(`${req.method} is not allowed for the request.`)
-}).listen(PORT).on('listening', () => {
-  console.log('Server started : http://localhost:' + PORT)
 })
+  .listen(PORT)
+  .on('listening', () => {
+    console.log('Server started : http://localhost:' + PORT)
+  })

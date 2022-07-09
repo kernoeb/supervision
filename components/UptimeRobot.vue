@@ -11,11 +11,7 @@
         height="20"
         contain
       />
-      <v-menu
-        offset-y
-        :close-on-click="false"
-        :close-on-content-click="false"
-      >
+      <v-menu offset-y :close-on-click="false" :close-on-content-click="false">
         <template #activator="{ on, attrs }">
           <v-btn
             small
@@ -59,9 +55,14 @@
               <v-card-title class="subtitle-2 pa-1">
                 <v-tooltip top>
                   <template #activator="{ on, attrs }">
-                    <div v-bind="attrs" class="d-flex justify-space-between align-center" style="width: 100%;" v-on="on">
+                    <div
+                      v-bind="attrs"
+                      class="d-flex justify-space-between align-center"
+                      style="width: 100%"
+                      v-on="on"
+                    >
                       <div class="text-truncate">
-                        &nbsp;{{ monitor.name }}
+&nbsp;{{ monitor.name }}
                       </div>
                       <v-chip x-small class="pl-2 pr-2">
                         <div
@@ -69,9 +70,18 @@
                           :style="{
                             'background-color': getColor(monitor.status),
                           }"
-                          style="height: 10px; width: 10px; min-width: 10px; margin-right: 5px;"
+                          style="
+                            height: 10px;
+                            width: 10px;
+                            min-width: 10px;
+                            margin-right: 5px;
+                          "
                         />
-                        {{ monitor.uptime === 1 ? '100' : (monitor.uptime * 100).toFixed(2) }}%
+                        {{
+                          monitor.uptime === 1
+                            ? '100'
+                            : (monitor.uptime * 100).toFixed(2)
+                        }}%
                       </v-chip>
                     </div>
                   </template>
@@ -100,7 +110,8 @@ export default {
     }
   },
   async fetch () {
-    this.uptimerobot_URL = this.globalGetData('uptimerobot_URL') || 'http://localhost:20303/'
+    this.uptimerobot_URL =
+      this.globalGetData('uptimerobot_URL') || 'http://localhost:20303/'
 
     try {
       const { data } = await this.$axios.get(this.uptimerobot_URL)
@@ -112,14 +123,15 @@ export default {
   computed: {
     computedUptimes () {
       const tmp = [...this.uptimes]
-      const filtered = tmp.filter(
-        uptime => uptime.status !== 'up'
-      ).sort((a, b) =>
-        a.name.localeCompare(b.name)
-      )
-      return [...filtered, ...tmp.filter(uptime => !filtered.some(f => f.name === uptime.name)).sort((a, b) =>
-        a.name.localeCompare(b.name)
-      )]
+      const filtered = tmp
+        .filter(uptime => uptime.status !== 'up')
+        .sort((a, b) => a.name.localeCompare(b.name))
+      return [
+        ...filtered,
+        ...tmp
+          .filter(uptime => !filtered.some(f => f.name === uptime.name))
+          .sort((a, b) => a.name.localeCompare(b.name))
+      ]
     }
   },
   mounted () {

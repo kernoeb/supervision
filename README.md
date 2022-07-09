@@ -53,7 +53,7 @@ SSH_PASS=xxxx SSH_KEY=~/.ssh/xxxxx SSH_HOST=xxx.xxx.xx SSH_USER=xxx SSH_PORT=xx 
 > SSH_USER is the username of the SSH server  
 > SSH_PORT is the port of the SSH server, default is 22 (optional)  
 > SSH_KEY is the path to the SSH key  
-> SSH_PASS is the passphrase of the SSH key (optional)  
+> SSH_PASS is the passphrase of the SSH key (optional)
 
 ## Usage (uptime robot monitor package)
 

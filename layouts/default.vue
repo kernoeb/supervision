@@ -1,6 +1,16 @@
 <template>
   <v-app>
-    <div v-if="showCanvas" id="dvd" style="position: absolute; width: 100%; height: 100%; z-index: 2000; pointer-events:none;" />
+    <div
+      v-if="showCanvas"
+      id="dvd"
+      style="
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2000;
+        pointer-events: none;
+      "
+    />
     <v-system-bar fixed app>
       <span>Supervision</span>
       <v-spacer />
@@ -36,7 +46,10 @@ export default {
   mounted () {
     // Check if fullscreen is active every 2 seconds
     setInterval(() => {
-      this.fullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement
+      this.fullscreen =
+        document.fullscreenElement ||
+        document.mozFullScreenElement ||
+        document.webkitFullscreenElement
     }, 2000)
 
     // This is really important, don't remove it
@@ -72,15 +85,27 @@ export default {
             return hasCollision
           }
 
-          const colors = ['green', 'red', 'blue', 'yellow', 'orange', 'purple', 'pink']
-          const randomTint = () => colors[Math.floor(Math.random() * colors.length)]
+          const colors = [
+            'green',
+            'red',
+            'blue',
+            'yellow',
+            'orange',
+            'purple',
+            'pink'
+          ]
+          const randomTint = () =>
+            colors[Math.floor(Math.random() * colors.length)]
 
           sketch.preload = () => {
             image = sketch.loadImage(localStorage.getItem('dvd')) // base64 or url
           }
 
           sketch.setup = () => {
-            const canvas = sketch.createCanvas(window.innerWidth, window.innerHeight)
+            const canvas = sketch.createCanvas(
+              window.innerWidth,
+              window.innerHeight
+            )
             canvas.parent('dvd')
 
             // Resize the image to not exceed the predefined size
@@ -105,11 +130,17 @@ export default {
       const element = document.body // Make the body go full screen.
 
       // Supports most browsers and their versions.
-      const requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen
+      const requestMethod =
+        element.requestFullScreen ||
+        element.webkitRequestFullScreen ||
+        element.mozRequestFullScreen ||
+        element.msRequestFullScreen
 
-      if (requestMethod) { // Native full screen.
+      if (requestMethod) {
+        // Native full screen.
         requestMethod.call(element)
-      } else if (typeof window.ActiveXObject !== 'undefined') { // Older IE.
+      } else if (typeof window.ActiveXObject !== 'undefined') {
+        // Older IE.
         // eslint-disable-next-line no-undef
         const wscript = new ActiveXObject('WScript.Shell')
         if (wscript !== null) {
