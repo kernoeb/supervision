@@ -11,16 +11,22 @@
         pointer-events: none;
       "
     />
-    <v-system-bar fixed app>
+    <v-system-bar app fixed>
       <span>Supervision</span>
       <v-spacer />
+      <div class="d-inline-flex align-center">
+        <span>Carousel</span>
+        <v-switch v-model="carousel" class="ma-0 pa-0 ml-2" dense hide-details inset />
+        <span>Cycle</span>
+        <v-switch v-model="cycle" class="ma-0 pa-0 ml-2" dense hide-details inset />
+      </div>
       <span class="mr-2">{{ date }}</span>
-      <v-btn v-if="!fullscreen" x-small icon @click="setFullscreen()">
+      <v-btn v-if="!fullscreen" icon x-small @click="setFullscreen()">
         <v-icon>mdi-fullscreen</v-icon>
       </v-btn>
     </v-system-bar>
     <v-main>
-      <v-container fluid>
+      <v-container fluid style="height: calc(100vh - 50px)">
         <Nuxt />
       </v-container>
     </v-main>
@@ -28,16 +34,30 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'DefaultLayout',
   data () {
     return {
       showCanvas: false,
       fullscreen: false,
-      date: ''
+      date: '',
+      carousel: false,
+      cycle: false
+    }
+  },
+  watch: {
+    carousel (value) {
+      this.activateCarousel(value)
+    },
+    cycle (value) {
+      this.activateCycle(value)
     }
   },
   created () {
+    this.carousel = this.$store.state.carousel
+    this.cycle = this.$store.state.cycle
     this.date = this.getDate()
     setInterval(() => {
       this.date = this.getDate()
@@ -126,6 +146,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['activateCarousel', 'activateCycle']),
     setFullscreen () {
       const element = document.body // Make the body go full screen.
 
