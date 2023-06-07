@@ -15,7 +15,7 @@ ssh
   .connect({
     host: process.env.SSH_HOST,
     username: process.env.SSH_USER,
-    privateKey: path.join(process.env.SSH_KEY),
+    privateKeyPath: path.join(process.env.SSH_KEY),
     passphrase: process.env.SSH_PASS || undefined,
     port: process.env.SSH_PORT || 22
   })

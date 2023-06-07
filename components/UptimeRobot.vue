@@ -4,19 +4,19 @@
     elevation="0"
     style="border: 2px solid #9b9b9b; overflow-y: auto"
   >
-    <v-progress-linear v-if="$fetchState.pending" indeterminate absolute />
+    <v-progress-linear v-if="$fetchState.pending" absolute indeterminate />
     <v-card-title class="d-flex justify-center">
       <v-img
         :src="require('@/assets/uptimerobot-logo-dark.svg')"
-        height="20"
         contain
+        height="20"
       />
-      <v-menu offset-y :close-on-click="false" :close-on-content-click="false">
+      <v-menu :close-on-click="false" :close-on-content-click="false" offset-y>
         <template #activator="{ on, attrs }">
           <v-btn
             small
-            v-bind="attrs"
             style="position: absolute; right: 15px"
+            v-bind="attrs"
             v-on="on"
           >
             <v-icon small>
@@ -24,7 +24,7 @@
             </v-icon>
           </v-btn>
         </template>
-        <v-card outlined class="pa-4">
+        <v-card class="pa-4" outlined>
           <v-card-title>Modifier l'URL</v-card-title>
           <v-text-field
             v-model="uptimerobot_URL"
@@ -44,44 +44,33 @@
           <v-col
             v-for="monitor in computedUptimes"
             :key="monitor.name"
-            cols="4"
+            :cols="$store.state.carousel ? 6 : 4"
             class="list-uptimerobot-complete-item"
           >
             <v-card
-              style="height: 100%"
+              :style="{ 'background-color': getCardColor(monitor.status)}"
               class="rounded-lg"
-              :style="{ 'background-color': getCardColor(monitor.status) }"
+              style="height: 100%"
             >
               <v-card-title class="subtitle-2 pa-1">
                 <v-tooltip top>
                   <template #activator="{ on, attrs }">
                     <div
-                      v-bind="attrs"
                       class="d-flex justify-space-between align-center"
                       style="width: 100%"
+                      v-bind="attrs"
                       v-on="on"
                     >
                       <div class="text-truncate">
-&nbsp;{{ monitor.name }}
+                        &nbsp;{{ monitor.name }}
                       </div>
-                      <v-chip x-small class="pl-2 pr-2">
+                      <v-chip class="pl-2 pr-2" x-small>
                         <div
+                          :style="{'background-color': getColor(monitor.status),}"
                           class="rounded-circle"
-                          :style="{
-                            'background-color': getColor(monitor.status),
-                          }"
-                          style="
-                            height: 10px;
-                            width: 10px;
-                            min-width: 10px;
-                            margin-right: 5px;
-                          "
+                          style="height: 10px;width: 10px;min-width: 10px;margin-right: 5px;"
                         />
-                        {{
-                          monitor.uptime === 1
-                            ? '100'
-                            : (monitor.uptime * 100).toFixed(2)
-                        }}%
+                        {{ monitor.uptime === 1 ? '100' : (monitor.uptime * 100).toFixed(2) }}%
                       </v-chip>
                     </div>
                   </template>
@@ -164,11 +153,13 @@ export default {
   transition: all 1s;
   display: inline-block;
 }
+
 .list-uptimerobot-complete-enter,
 .list-uptimerobot-complete-leave-to {
   opacity: 0;
   transform: translateY(30px);
 }
+
 .list-uptimerobot-complete-leave-active {
   position: absolute;
 }
