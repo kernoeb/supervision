@@ -37,7 +37,7 @@ async function fetchData () {
       lastInheritedRiskScore: project.lastInheritedRiskScore,
       active: project.active,
       uuid: project.uuid,
-      lastBomImportDate: project.lastBomImport ? format(parseISO(new Date(project.lastBomImport).toISOString(), 'dd/MM/yyyy')) : null,
+      lastBomImportDate: project.lastBomImport ? format(parseISO(new Date(project.lastBomImport).toISOString()), 'dd/MM/yyyy') : null,
       currentDate
     }))
   } catch (error) {
