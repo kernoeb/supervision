@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { format, parseISO } from 'date-fns'
 import StorageManagement from '../mixins/StorageManagement.js'
 
 export default {
@@ -51,8 +50,12 @@ export default {
   data () {
     return {
       services: [],
+      interval: null,
       formattedLastImportDate: ''
     }
+  },
+  mounted () {
+    this.interval = setInterval(() => this.$fetch(), 60000)
   },
   async created () {
     try {
@@ -61,10 +64,7 @@ export default {
 
       const { data } = await this.$axios.get(this.vulnerabilities_URL)
       this.services = data
-      this.lastImportDate = parseISO(data[0].lastBomImportDate)
-
-      // Formater la date en 'dd/MM/yyyy - HH'h'mm'
-      this.formattedLastImportDate = format(this.lastImportDate, "dd/MM/yyyy - HH'h'mm")
+      this.lastImportDate = data[0].lastBomImportDate
     } catch (err) {
       console.error(err)
     }
