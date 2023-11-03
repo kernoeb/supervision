@@ -1,8 +1,7 @@
 const { createServer } = require('http')
 const axios = require('axios')
 
-if (!process.env.process.env.API_KEY_DTRACK
-) {
+if (!process.env.API_KEY_DTRACK) {
   console.error('API_KEY_DTRACK is not set')
   process.exit(1)
 }
