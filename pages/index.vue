@@ -18,6 +18,9 @@
       <v-carousel-item>
         <DockerViewer class="custom-carousel-item" />
       </v-carousel-item>
+      <v-carousel-item>
+        <DependencyTrack class="custom-carousel-item" />
+      </v-carousel-item>
     </v-carousel>
     <v-row v-else align="center" justify="center">
       <v-col md="10" style="max-width: 100%" xl="8">

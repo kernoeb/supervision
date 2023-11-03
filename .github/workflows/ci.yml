@@ -22,7 +22,7 @@ jobs:
 
       # Build pkg apps
       - name: pkg
-        run: yarn && yarn build_docker_monitor && yarn build_uptime_monitor || exit 1
+        run: yarn && yarn build_docker_monitor && yarn build_uptime_monitor && yarn build_dependency_monitor || exit 1
 
       - name: Create artifact
         uses: actions/upload-artifact@v3

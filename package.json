@@ -10,8 +10,9 @@
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "lintfix": "yarn lint:js --fix",
-    "build_docker_monitor": "rm -rf pkg/docker-monitor && NODE_ENV=production pkg --target=node16-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js",
-    "build_uptime_monitor": "rm -rf pkg/uptime && NODE_ENV=production pkg --target=node16-linux-x64 -o pkg/uptime-monitor scripts/uptime/uptime-robot.js"
+    "build_docker_monitor": "rm -rf pkg/docker-monitor && NODE_ENV=production pkg --target=node18-linux-x64 -o pkg/docker-monitor scripts/docker/docker-monitor.js",
+    "build_uptime_monitor": "rm -rf pkg/uptime && NODE_ENV=production pkg --target=node18-linux-x64 -o pkg/uptime-monitor scripts/uptime/uptime-robot.js",
+    "build_dependency_monitor": "rm -rf pkg/dependency-monitor && NODE_ENV=production pkg --target=node18-linux-x64 -o pkg/dependency-monitor scripts/dtrack/dependency-track.js"
   },
   "main": "index.html",
   "engines": {
@@ -23,6 +24,8 @@
     "@wtfcode/byte-converter": "2.0.8",
     "cookie-universal-nuxt": "2.2.2",
     "core-js": "3.33.2",
+    "date-fns": "^2.30.0",
+    "form-data": "^4.0.0",
     "node-ssh": "13.1.0",
     "npm-check-updates": "16.14.6",
     "nuxt": "2.17.2",
