@@ -18,7 +18,6 @@ let simplifiedData = []
 
 async function fetchData () {
   try {
-    simplifiedData = []
 
     const response = await axios.get(
       'http://localhost:8081/api/v1/project?excludeInactive=true&onlyRoot=true&searchText=&sortName=lastBomImport&sortOrder=asc&pageSize=25&pageNumber=1', {
@@ -38,7 +37,7 @@ async function fetchData () {
       lastInheritedRiskScore: project.lastInheritedRiskScore,
       active: project.active,
       uuid: project.uuid,
-      lastBomImportDate: format(parseISO(new Date(project.lastBomImport).toISOString())),
+      lastBomImportDate: project.lastBomImport ? format(parseISO(new Date(project.lastBomImport).toISOString())) : null,
       currentDate
     }))
   } catch (error) {
