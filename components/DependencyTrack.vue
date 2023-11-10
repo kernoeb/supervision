@@ -9,7 +9,7 @@
         Vulnerabilities - Dependency Track
       </div>
       <div class="text-h6 mt-2">
-        Dernier Import: {{ formattedLastImportDate }}
+        Dernier Import: {{ lastImportDate }}
       </div>
     </v-card-title>
     <v-card-text>
@@ -65,9 +65,6 @@ export default {
     }
   },
   computed: {
-    formattedLastImportDate () {
-      return this.lastImportDate ? this.$dayjs(this.lastImportDate).format('DD/MM/YYYY HH:mm:ss') : ''
-    },
     sortedServicesPerCriticality () {
       const tmp = [...this.services]
       // sort by number of critical, then high, then medium, then low
