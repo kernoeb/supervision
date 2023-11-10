@@ -15,19 +15,19 @@
     <v-card-text>
       <v-row>
         <v-col
-          v-for="service in services"
+          v-for="service in sortedServicesPerCriticality"
           :key="service.uuid"
           lg="3"
         >
           <v-card class="mx-2 my-4" elevation="2">
             <v-card-title>
-              {{ service.name }} - {{ service.version }}
+              {{ service.name }}<span v-if="service.version"> - {{ service.version }}</span>
             </v-card-title>
             <v-card-text>
-              <div>
+              <div :class="service.metrics.critical > 0 ? 'red--text' : ''">
                 <b>Critiques:</b> {{ service.metrics.critical }}
               </div>
-              <div>
+              <div :class="service.metrics.high > 0 ? 'orange--text' : ''">
                 <b>Hautes:</b> {{ service.metrics.high }}
               </div>
               <div>
@@ -67,6 +67,14 @@ export default {
   computed: {
     formattedLastImportDate () {
       return this.lastImportDate ? this.$dayjs(this.lastImportDate).format('DD/MM/YYYY HH:mm:ss') : ''
+    },
+    sortedServicesPerCriticality () {
+      const tmp = [...this.services]
+      return tmp.sort((a, b) => {
+        if (a.metrics.critical > b.metrics.critical) return -1
+        if (a.metrics.critical < b.metrics.critical) return 1
+        return 0
+      })
     }
   },
   mounted () {

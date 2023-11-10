@@ -18,7 +18,6 @@ let simplifiedData = []
 
 async function fetchData () {
   try {
-
     const response = await axios.get(
       'http://localhost:8081/api/v1/project?excludeInactive=true&onlyRoot=true&searchText=&sortName=lastBomImport&sortOrder=asc&pageSize=25&pageNumber=1', {
         headers: {
