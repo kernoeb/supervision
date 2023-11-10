@@ -51,23 +51,29 @@ export default {
     return {
       services: [],
       interval: null,
-      formattedLastImportDate: ''
+      lastImportDate: ''
     }
   },
-  mounted () {
-    this.interval = setInterval(() => this.$fetch(), 60000)
-  },
-  async created () {
+  async fetch () {
     try {
-      this.vulnerabilities_URL =
-      this.globalGetData('vulnerabilities_URL') || 'http://localhost:20304/'
-
+      this.vulnerabilities_URL = this.globalGetData('vulnerabilities_URL') || 'http://localhost:20304/'
       const { data } = await this.$axios.get(this.vulnerabilities_URL)
       this.services = data
       this.lastImportDate = data[0].lastBomImportDate
     } catch (err) {
       console.error(err)
     }
+  },
+  computed: {
+    formattedLastImportDate () {
+      return this.lastImportDate ? this.$dayjs(this.lastImportDate).format('DD/MM/YYYY HH:mm:ss') : ''
+    }
+  },
+  mounted () {
+    this.interval = setInterval(() => this.$fetch(), 60000)
+  },
+  destroyed () {
+    if (this.interval) clearInterval(this.interval)
   }
 }
 </script>

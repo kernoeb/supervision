@@ -98,9 +98,7 @@ export default {
     }
   },
   async fetch () {
-    this.DOCKER_URL =
-      this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
-
+    this.DOCKER_URL = this.globalGetData('DOCKER_URL') || 'http://localhost:20302/'
     try {
       const { data } = await this.$axios.get(this.DOCKER_URL)
       this.containers = data
