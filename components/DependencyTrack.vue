@@ -70,9 +70,16 @@ export default {
     },
     sortedServicesPerCriticality () {
       const tmp = [...this.services]
+      // sort by number of critical, then high, then medium, then low
       return tmp.sort((a, b) => {
         if (a.metrics.critical > b.metrics.critical) return -1
         if (a.metrics.critical < b.metrics.critical) return 1
+        if (a.metrics.high > b.metrics.high) return -1
+        if (a.metrics.high < b.metrics.high) return 1
+        if (a.metrics.medium > b.metrics.medium) return -1
+        if (a.metrics.medium < b.metrics.medium) return 1
+        if (a.metrics.low > b.metrics.low) return -1
+        if (a.metrics.low < b.metrics.low) return 1
         return 0
       })
     }
