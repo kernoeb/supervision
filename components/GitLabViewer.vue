@@ -56,7 +56,7 @@
             small
             style="position: absolute; right: 15px"
             v-bind="attrs"
-            @click="filtered = !filtered$nextTick(() => $fetch()) "
+            @click="filtered = !filtered; $nextTick(() => $fetch()) "
             v-on="on"
           >
             <v-icon :color="iconColor" small>
